@@ -85,10 +85,10 @@ def goToLink(browser):
     browser.get('https://students.unipi.gr/')
 
     username = browser.find_element_by_id('userName')
-    username.send_keys('p16040')
+    username.send_keys('')
 
     password = browser.find_element_by_id('pwd')
-    password.send_keys('mike_17021998MK')
+    password.send_keys('')
 
     submit = browser.find_element_by_id('submit1')
     submit.click()
