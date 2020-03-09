@@ -1,18 +1,19 @@
 from selenium.webdriver import Firefox
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.firefox.options import Options
 import time
 import re
 import os
 
 
 def WriteToFileClean(browser):
+    print ("Writing to files")
     with open("holder.txt","r") as f,open("totalCourses.txt","w+") as clean_total_courses_file:
         for line in f:
             result = re.sub(r'\([^)]*\)', '',line)
             clean_total_courses_file.write(result.lstrip()+"\n")
 
     os.remove("holder.txt")
-
 
     winter = True
     summer = False
@@ -48,8 +49,11 @@ def WriteToFileClean(browser):
     clean_failed_courses_file.write("Σύνολο χρωστούμενων: "+str(counter))
     clean_failed_courses_file.close()
     os.remove("failedholder.txt")
+    browser.quit()
+
 
 def GetGrades(browser):
+    print ("Getting your grades")
     counter = 0
     failedCounter = 0
     with open("holder.txt", "w+") as total_courses_file, open("failedholder.txt", "w+") as failed_courses_file:
@@ -83,10 +87,10 @@ def GetGrades(browser):
 
 def goToLink(browser):
     browser.get('https://students.unipi.gr/')
-
+    print ("Navigating to the website")
     username = browser.find_element_by_id('userName')
     username.send_keys('')
-
+    print ("Pressing some buttons")
     password = browser.find_element_by_id('pwd')
     password.send_keys('')
 
@@ -99,11 +103,15 @@ def goToLink(browser):
 
 if __name__ == "__main__":
     while True:
-        browser = Firefox()
+        options = Options()
+        options.headless = True
+        browser = Firefox(options=options)
+        print ("\nFirefox Initialized")
         try:
             goToLink(browser)
+            print ("Completed!")
             break
         except NoSuchElementException as e:
-            print("The site is messed up, relaunching")
+            print("The website is messed up, relaunching")
             browser.quit()
             continue
