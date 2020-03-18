@@ -40,10 +40,10 @@ def WriteToFileClean(browser):
             counter += 1
 
     clean_failed_courses_file = open("failed.txt", "w+")
-    clean_failed_courses_file.write("======== Χειμερινά εξάμηνα =========\n")
+    clean_failed_courses_file.write("======== Winter Semester =========\n")
     clean_failed_courses_file.write(winterCourses)
     clean_failed_courses_file.write("====================================\n\n")
-    clean_failed_courses_file.write("======== Θερινά εξάμηνα =========\n")
+    clean_failed_courses_file.write("======== Summer Semester =========\n")
     clean_failed_courses_file.write(summerCourses)
     clean_failed_courses_file.write("====================================\n")
     clean_failed_courses_file.write("Σύνολο χρωστούμενων: "+str(counter))
@@ -83,7 +83,7 @@ def GetGrades(browser):
                 except Exception as e:
                     break
 
-    WriteToFileClean(browser)
+    
 
 def goToLink(browser):
     browser.get('https://students.unipi.gr/')
@@ -99,7 +99,7 @@ def goToLink(browser):
 
     menu = browser.find_element_by_id('mnu3')
     menu.click()
-    GetGrades(browser)
+    
 
 if __name__ == "__main__":
     while True:
@@ -109,6 +109,8 @@ if __name__ == "__main__":
         print ("\nFirefox Initialized")
         try:
             goToLink(browser)
+            GetGrades(browser)
+            WriteToFileClean(browser)
             print ("Completed!")
             break
         except NoSuchElementException as e:
